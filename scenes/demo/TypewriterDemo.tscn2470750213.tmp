@@ -19,6 +19,10 @@ script = ExtResource("1")
 [node name="TypewriterEffect" type="Node" parent="."]
 script = ExtResource("2")
 target_path = NodePath("../CanvasLayer/UIRoot/MarginContainer/VBox/OutputLabel")
+base_delay_ms = 45.0
+punctuation_extra_delay_ms = 120.0
+whitespace_delay_multiplier = 0.35
+cursor_symbol = "_"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
