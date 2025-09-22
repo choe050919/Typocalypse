@@ -1,0 +1,91 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/demo/TypewriterDemo.gd" id="1"]
+[ext_resource type="Script" path="res://addons/typocalypse/TypewriterEffect.gd" id="2"]
+[ext_resource type="Shader" path="res://addons/typocalypse/shaders/neon_pulse.gdshader" id="3"]
+
+[sub_resource type="ShaderMaterial" id="1"]
+shader = ExtResource("3")
+
+[node name="TypewriterDemo" type="Node2D"]
+script = ExtResource("1")
+
+[node name="DemoCamera" type="Camera2D" parent="."]
+current = true
+
+[node name="TypeSfxPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="TypewriterEffect" type="Node" parent="."]
+script = ExtResource("2")
+target_path = NodePath("../CanvasLayer/UIRoot/MarginContainer/VBox/OutputLabel")
+base_delay_ms = 45.0
+punctuation_extra_delay_ms = 120.0
+whitespace_delay_multiplier = 0.35
+cursor_symbol = "_"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UIRoot" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UIRoot"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/UIRoot/MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="ControlsRow" type="HBoxContainer" parent="CanvasLayer/UIRoot/MarginContainer/VBox"]
+size_flags_horizontal = 3
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "Play"
+
+[node name="PauseButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "Pause"
+
+[node name="StopButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "Stop"
+
+[node name="RewindButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "Rewind"
+
+[node name="SkipButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "Skip"
+
+[node name="SpeedHalfButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "×0.5"
+
+[node name="SpeedNormalButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "×1"
+
+[node name="SpeedDoubleButton" type="Button" parent="CanvasLayer/UIRoot/MarginContainer/VBox/ControlsRow"]
+text = "×2"
+
+[node name="PresetRow" type="HBoxContainer" parent="CanvasLayer/UIRoot/MarginContainer/VBox"]
+size_flags_horizontal = 3
+
+[node name="PresetLabel" type="Label" parent="CanvasLayer/UIRoot/MarginContainer/VBox/PresetRow"]
+text = "Preset"
+
+[node name="PresetOption" type="OptionButton" parent="CanvasLayer/UIRoot/MarginContainer/VBox/PresetRow"]
+size_flags_horizontal = 3
+
+[node name="InputField" type="LineEdit" parent="CanvasLayer/UIRoot/MarginContainer/VBox"]
+placeholder_text = "Enter custom text and press Play"
+size_flags_horizontal = 3
+
+[node name="OutputLabel" type="RichTextLabel" parent="CanvasLayer/UIRoot/MarginContainer/VBox"]
+custom_minimum_size = Vector2(0, 160)
+size_flags_vertical = 3
+text = ""
+material = SubResource("1")
+fit_content = true
+scroll_active = false

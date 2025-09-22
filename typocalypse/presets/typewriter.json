@@ -1,0 +1,37 @@
+{
+  "presets": [
+    {
+      "name": "Basic",
+      "text": "Welcome to Typocalypse!\nTap play to start the base preset.",
+      "settings": {
+        "base_delay_ms": 45,
+        "punctuation_extra_delay_ms": 120,
+        "whitespace_delay_multiplier": 0.35,
+        "cursor_symbol": "_"
+      },
+      "hooks": []
+    },
+    {
+      "name": "SFX & Shake",
+      "text": "Feel the rumble with a gentle shake and audio blip.",
+      "settings": {
+        "base_delay_ms": 55,
+        "punctuation_extra_delay_ms": 160,
+        "whitespace_delay_multiplier": 0.4,
+        "cursor_symbol": "|"
+      },
+      "hooks": ["sfx", "shake"]
+    },
+    {
+      "name": "Neon Pulse",
+      "text": "[FX:glow]Neon vibes pulse with every keystroke![/FX]",
+      "settings": {
+        "base_delay_ms": 35,
+        "punctuation_extra_delay_ms": 100,
+        "whitespace_delay_multiplier": 0.3,
+        "cursor_symbol": "❚"
+      },
+      "hooks": ["shader"]
+    }
+  ]
+}
