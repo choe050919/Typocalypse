@@ -1,8 +1,8 @@
 extends Node2D
 
-const TypewriterSfxHook := preload("res://addons/typocalypse/hooks/SfxHook.gd")
-const TypewriterScreenShakeHook := preload("res://addons/typocalypse/hooks/ScreenShakeHook.gd")
-const TypewriterShaderPulseHook := preload("res://addons/typocalypse/hooks/ShaderPulseHook.gd")
+const SfxHookScript := preload("res://addons/typocalypse/hooks/SfxHook.gd")
+const ScreenShakeHookScript := preload("res://addons/typocalypse/hooks/ScreenShakeHook.gd")
+const ShaderPulseHookScript := preload("res://addons/typocalypse/hooks/ShaderPulseHook.gd")
 
 @onready var typewriter: TypewriterEffect = $TypewriterEffect
 @onready var input_field: LineEdit = $CanvasLayer/UIRoot/MarginContainer/VBox/InputField
@@ -82,22 +82,22 @@ func _apply_preset(index: int) -> void:
 			hooks.append(hook)
 	typewriter.set_hooks(hooks)
 
-func _build_hook(name: String) -> TypewriterHook:
-	match name:
+func _build_hook(hook_id: String) -> TypewriterHook:
+	match hook_id:
 		"sfx":
-			var hook := TypewriterSfxHook.new()
+			var hook := SfxHookScript.new()
 			hook.player_path = NodePath("../TypeSfxPlayer")
 			hook.min_interval_ms = 80.0
 			return hook
 		"shake":
-			var hook := TypewriterScreenShakeHook.new()
+			var hook := ScreenShakeHookScript.new()
 			hook.camera_path = NodePath("../DemoCamera")
 			hook.trauma_per_char = 0.08
 			hook.max_amplitude = 12.0
 			hook.decay_rate = 6.0
 			return hook
 		"shader":
-			var hook := TypewriterShaderPulseHook.new()
+			var hook := ShaderPulseHookScript.new()
 			hook.target_path = typewriter.target_path
 			hook.pulse_value = 1.5
 			hook.decay_rate = 5.0
