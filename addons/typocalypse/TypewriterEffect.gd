@@ -150,16 +150,24 @@ func set_cursor(visible: bool, symbol := "_", blink_hz := 2.0) -> void:
 
 func set_hooks(hooks: Array[TypewriterHook]) -> void:
 	## Replaces the active hooks with the provided array.
+	print("[TYPEWRITER] set_hooks called with ", hooks.size(), " hooks")
+	
 	for hook in _active_hooks:
 		hook.clear_effect()
 	_active_hooks.clear()
+	
 	if hooks == null:
+		print("[TYPEWRITER] hooks is null, returning")
 		return
+	
 	for hook in hooks:
 		if hook == null:
+			print("[TYPEWRITER] Skipping null hook")
 			continue
+		print("[TYPEWRITER] Adding hook: ", hook.get_class())
 		_active_hooks.append(hook)
 		hook.set_effect(self)
+		print("[TYPEWRITER] Hook attached, is_inside_tree: ", is_inside_tree())
 
 func set_target(target: CanvasItem) -> void:
 	## Overrides the label or rich text label target used for rendering.

@@ -3,6 +3,7 @@ extends Node2D
 const SfxHookScript := preload("res://addons/typocalypse/hooks/SfxHook.gd")
 const ScreenShakeHookScript := preload("res://addons/typocalypse/hooks/ScreenShakeHook.gd")
 const ShaderPulseHookScript := preload("res://addons/typocalypse/hooks/ShaderPulseHook.gd")
+const RainbowHookScript := preload("res://addons/typocalypse/hooks/RainbowTextHook.gd")
 
 @onready var typewriter: TypewriterEffect = $TypewriterEffect
 @onready var input_field: LineEdit = $CanvasLayer/UIRoot/MarginContainer/VBox/InputField
@@ -14,6 +15,10 @@ const ShaderPulseHookScript := preload("res://addons/typocalypse/hooks/ShaderPul
 var _presets: Array = []
 
 func _ready() -> void:
+	# Camera를 화면 중앙에 배치
+	var viewport_size = get_viewport_rect().size
+	camera.position = viewport_size / 2.0
+	
 	typewriter.set_target(output_label)
 	typewriter.finished.connect(_on_finished)
 	_connect_controls()
@@ -83,28 +88,27 @@ func _apply_preset(index: int) -> void:
 	typewriter.set_hooks(hooks)
 
 func _build_hook(hook_id: String) -> TypewriterHook:
+	var hook: TypewriterHook = null
+	
 	match hook_id:
 		"sfx":
-			var hook := SfxHookScript.new()
-			hook.player_path = NodePath("../TypeSfxPlayer")
+			hook = TypewriterSfxHook.new()
+			hook.player_path = sfx_player.get_path()
 			hook.min_interval_ms = 80.0
-			return hook
 		"shake":
-			var hook := ScreenShakeHookScript.new()
-			hook.camera_path = NodePath("../DemoCamera")
-			hook.trauma_per_char = 0.08
+			hook = TypewriterScreenShakeHook.new()
+			hook.camera_path = camera.get_path()
+			hook.trauma_per_char = 0.25
 			hook.max_amplitude = 12.0
-			hook.decay_rate = 6.0
-			return hook
+			hook.decay_rate = 4.0
 		"shader":
-			var hook := ShaderPulseHookScript.new()
-			hook.target_path = typewriter.target_path
+			hook = TypewriterShaderPulseHook.new()
+			hook.target_path = output_label.get_path()
 			hook.pulse_value = 1.5
 			hook.decay_rate = 5.0
 			hook.uniform_name = "pulse_strength"
-			return hook
-		_:
-			return null
+	
+	return hook
 
 func _on_play_pressed() -> void:
 	var text := input_field.text

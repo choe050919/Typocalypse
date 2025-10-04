@@ -21,6 +21,7 @@ script = ExtResource("2")
 target_path = NodePath("../CanvasLayer/UIRoot/MarginContainer/VBox/OutputLabel")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="UIRoot" type="Control" parent="CanvasLayer"]
 layout_mode = 3

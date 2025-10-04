@@ -32,6 +32,17 @@
 		"cursor_symbol": "❚"
 	  },
 	  "hooks": ["shader"]
+	},
+	{
+	  "name": "Rainbow Wave",
+	  "text": "Experience the magical rainbow colors dancing across your screen! ✨🌈",
+	  "settings": {
+		"base_delay_ms": 40,
+		"punctuation_extra_delay_ms": 100,
+		"whitespace_delay_multiplier": 0.3,
+		"cursor_symbol": "▌"
+	  },
+	  "hooks": ["rainbow"]
 	}
   ]
 }

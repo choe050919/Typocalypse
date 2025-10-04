@@ -6,27 +6,27 @@ class_name TypewriterHook
 var _effect: Node = null
 
 func set_effect(effect: Node) -> void:
-    _effect = effect
-    _on_effect_attached()
+	_effect = effect
+	_on_effect_attached()
 
 func clear_effect() -> void:
-    _on_effect_detached()
-    _effect = null
+	_on_effect_detached()
+	_effect = null
 
 func _on_effect_attached() -> void:
-    pass
+	pass
 
 func _on_effect_detached() -> void:
-    pass
+	pass
 
 func on_char(char: String, index: int, contexts: PackedStringArray) -> void:
-    pass
+	pass
 
 func on_word(word: String, word_index: int, contexts: PackedStringArray) -> void:
-    pass
+	pass
 
 func on_finished() -> void:
-    pass
+	pass
 
 func process(delta: float) -> void:
-    pass
+	pass
