@@ -4,6 +4,7 @@ const SfxHookScript := preload("res://addons/typocalypse/hooks/SfxHook.gd")
 const ScreenShakeHookScript := preload("res://addons/typocalypse/hooks/ScreenShakeHook.gd")
 const ShaderPulseHookScript := preload("res://addons/typocalypse/hooks/ShaderPulseHook.gd")
 const RainbowHookScript := preload("res://addons/typocalypse/hooks/RainbowTextHook.gd")
+const GlitchHookScript := preload("res://addons/typocalypse/hooks/GlitchTextHook.gd")
 
 @onready var typewriter: TypewriterEffect = $TypewriterEffect
 @onready var input_field: LineEdit = $CanvasLayer/UIRoot/MarginContainer/VBox/InputField
@@ -121,6 +122,14 @@ func _build_hook(hook_id: String) -> TypewriterHook:
 				hook.value = 1.0
 				hook.animate_hue = true
 				hook.animation_speed = 0.3
+		"glitch":
+			var GlitchScript = load("res://addons/typocalypse/hooks/GlitchTextHook.gd")
+			if GlitchScript:
+				hook = GlitchScript.new()
+				hook.target_path = output_label.get_path()
+				hook.glitch_chance = 0.2
+				hook.glitch_duration = 0.15
+				hook.glitch_chars = "!@#$%^&*01▓░▒█"
 	
 	return hook
 

@@ -35,7 +35,7 @@
 	},
 	{
 	  "name": "Rainbow Wave",
-	  "text": "Experience the magical rainbow colors dancing across your screen! ✨🌈",
+	  "text": "Experience the magical rainbow colors dancing across your screen!",
 	  "settings": {
 		"base_delay_ms": 40,
 		"punctuation_extra_delay_ms": 100,
@@ -43,6 +43,17 @@
 		"cursor_symbol": "▌"
 	  },
 	  "hooks": ["rainbow"]
+	},
+	{
+	  "name": "System Glitch",
+	  "text": "WARNING: DATA CORRUPTION DETECTED... ATTEMPTING TO RESTORE...",
+	  "settings": {
+		"base_delay_ms": 30,
+		"punctuation_extra_delay_ms": 80,
+		"whitespace_delay_multiplier": 0.2,
+		"cursor_symbol": "█"
+	  },
+	  "hooks": ["glitch"]
 	}
   ]
 }
