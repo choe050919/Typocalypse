@@ -19,6 +19,10 @@ func _ready() -> void:
 	var viewport_size = get_viewport_rect().size
 	camera.position = viewport_size / 2.0
 	
+	# BBCode 강제 활성화
+	output_label.bbcode_enabled = true
+	print("[DEMO] BBCode enabled on OutputLabel: ", output_label.bbcode_enabled)
+	
 	typewriter.set_target(output_label)
 	typewriter.finished.connect(_on_finished)
 	_connect_controls()
@@ -107,6 +111,16 @@ func _build_hook(hook_id: String) -> TypewriterHook:
 			hook.pulse_value = 1.5
 			hook.decay_rate = 5.0
 			hook.uniform_name = "pulse_strength"
+		"rainbow":
+			var RainbowScript = load("res://addons/typocalypse/hooks/RainbowTextHook.gd")
+			if RainbowScript:
+				hook = RainbowScript.new()
+				hook.target_path = output_label.get_path()
+				hook.hue_shift_per_char = 0.08
+				hook.saturation = 1.0
+				hook.value = 1.0
+				hook.animate_hue = true
+				hook.animation_speed = 0.3
 	
 	return hook
 

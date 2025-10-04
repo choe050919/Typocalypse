@@ -1,13 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://orswgpy7ucuf"]
+[gd_scene load_steps=3 format=3 uid="uid://orswgpy7ucuf"]
 
 [ext_resource type="Script" uid="uid://cstt0um42mnq8" path="res://scenes/demo/TypewriterDemo.gd" id="1"]
 [ext_resource type="Script" uid="uid://cwrfe77e8vgwi" path="res://addons/typocalypse/TypewriterEffect.gd" id="2"]
-[ext_resource type="Shader" uid="uid://c8mbe6uu0cfqr" path="res://addons/typocalypse/shaders/neon_pulse.gdshader" id="3"]
-
-[sub_resource type="ShaderMaterial" id="1"]
-shader = ExtResource("3")
-shader_parameter/pulse_strength = 0.0
-shader_parameter/accent_color = Color(0.6, 0.9, 1.2, 1)
 
 [node name="TypewriterDemo" type="Node2D"]
 script = ExtResource("1")
@@ -94,9 +88,9 @@ size_flags_horizontal = 3
 placeholder_text = "Enter custom text and press Play"
 
 [node name="OutputLabel" type="RichTextLabel" parent="CanvasLayer/UIRoot/MarginContainer/VBox"]
-material = SubResource("1")
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 size_flags_vertical = 3
+bbcode_enabled = true
 fit_content = true
 scroll_active = false

@@ -13,20 +13,25 @@ var _target: RichTextLabel = null
 var _current_hue := 0.0
 var _char_hues: Array[float] = []
 var _animation_time := 0.0
+var _original_material: Material = null
+
+func should_handle_rendering() -> bool:
+	return true
 
 func _on_effect_attached() -> void:
 	_resolve_target()
 	_current_hue = 0.0
 	_char_hues.clear()
 	_animation_time = 0.0
-	print("[RAINBOW] Attached! Target: ", _target)
+	
 	if _target:
-		print("[RAINBOW] BBCode enabled: ", _target.bbcode_enabled)
+		_original_material = _target.material
+		_target.material = null
 
 func _on_effect_detached() -> void:
-	if _target and is_instance_valid(_target):
-		# BBCode 태그를 제거하지 않고 그냥 남겨둠
-		pass
+	if _target and _original_material:
+		_target.material = _original_material
+		_original_material = null
 
 func process(delta: float) -> void:
 	if _target == null or not is_instance_valid(_target):
@@ -36,7 +41,6 @@ func process(delta: float) -> void:
 		return
 	
 	if not _target.bbcode_enabled:
-		print("[RAINBOW] BBCode is not enabled!")
 		return
 	
 	if animate_hue:
@@ -46,7 +50,6 @@ func process(delta: float) -> void:
 func on_char(char: String, index: int, contexts: PackedStringArray) -> void:
 	_char_hues.append(_current_hue)
 	_current_hue = fmod(_current_hue + hue_shift_per_char, 1.0)
-	print("[RAINBOW] Char added: '", char, "' hue: ", _char_hues[_char_hues.size()-1])
 	_update_rainbow_text()
 
 func _resolve_target() -> void:
@@ -63,17 +66,14 @@ func _resolve_target() -> void:
 	if _target == null:
 		_target = _effect.get_node_or_null(target_path)
 	
-	# BBCode 활성화 확인
 	if _target and _target is RichTextLabel:
 		if not _target.bbcode_enabled:
 			_target.bbcode_enabled = true
-			print("[RAINBOW] Enabled BBCode on target")
 
 func _update_rainbow_text() -> void:
 	if _target == null or _char_hues.is_empty():
 		return
 	
-	# TypewriterEffect에서 현재 표시 중인 텍스트 가져오기
 	var typewriter = _effect as TypewriterEffect
 	if typewriter == null:
 		return
@@ -85,7 +85,6 @@ func _update_rainbow_text() -> void:
 		var char = plain_text[i]
 		var hue = _char_hues[i]
 		
-		# 애니메이션이 활성화되면 hue에 시간 기반 offset 추가
 		if animate_hue:
 			hue = fmod(hue + _animation_time, 1.0)
 		
@@ -94,11 +93,10 @@ func _update_rainbow_text() -> void:
 		
 		colored_text += "[color=#" + hex_color + "]" + char + "[/color]"
 	
-	# 커서 추가
 	if typewriter.cursor_visible and (typewriter.is_playing or typewriter.cursor_persist_on_finish):
-		colored_text += typewriter.cursor_symbol
+		if typewriter._cursor_state:
+			colored_text += typewriter.cursor_symbol
 	
-	print("[RAINBOW] Setting text: ", colored_text.substr(0, 100))
 	_target.text = colored_text
 
 func on_finished() -> void:

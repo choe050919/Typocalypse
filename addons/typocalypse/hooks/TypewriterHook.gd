@@ -14,6 +14,7 @@ func clear_effect() -> void:
 	_effect = null
 
 func _on_effect_attached() -> void:
+	print("[HOOK BASE] _on_effect_attached default implementation")
 	pass
 
 func _on_effect_detached() -> void:
@@ -30,3 +31,6 @@ func on_finished() -> void:
 
 func process(delta: float) -> void:
 	pass
+
+func should_handle_rendering() -> bool:
+	return false

@@ -149,7 +149,35 @@ func set_cursor(visible: bool, symbol := "_", blink_hz := 2.0) -> void:
 	_apply_visible_text()
 
 func set_hooks(hooks: Array[TypewriterHook]) -> void:
-	## Replaces the active hooks with the provided array.
+	for hook in _active_hooks:
+		hook.clear_effect()
+	_active_hooks.clear()
+	
+	if hooks == null:
+		return
+	
+	for hook in hooks:
+		if hook == null:
+			continue
+		_active_hooks.append(hook)
+		hook.set_effect(self)	## Replaces the active hooks with the provided array.
+	print("[TYPEWRITER] set_hooks called with ", hooks.size(), " hooks")
+	
+	for hook in _active_hooks:
+		hook.clear_effect()
+	_active_hooks.clear()
+	
+	if hooks == null:
+		return
+	
+	for hook in hooks:
+		if hook == null:
+			continue
+		print("[TYPEWRITER] Adding hook, has should_handle_rendering: ", hook.has_method("should_handle_rendering"))
+		_active_hooks.append(hook)
+		print("[TYPEWRITER] Calling set_effect...")
+		hook.set_effect(self)
+		print("[TYPEWRITER] set_effect completed")	## Replaces the active hooks with the provided array.
 	print("[TYPEWRITER] set_hooks called with ", hooks.size(), " hooks")
 	
 	for hook in _active_hooks:
@@ -258,6 +286,17 @@ func _emit_next_char() -> void:
 		_dynamic_delay_ms = max(minimum_delay_ms, _dynamic_delay_ms - acceleration_per_char_ms)
 
 func _apply_visible_text(force := false) -> void:
+	# Hook이 텍스트 렌더링을 관리하는지 먼저 확인
+	var hook_handled := false
+	for hook in _active_hooks:
+		if hook.has_method("should_handle_rendering") and hook.should_handle_rendering():
+			hook_handled = true
+			break
+	
+	# Hook이 렌더링을 관리하면 아무것도 하지 않음
+	if hook_handled:
+		return
+	
 	var base_text := ""
 	if visible_len > 0:
 		base_text = source_text.substr(0, visible_len)
@@ -276,7 +315,6 @@ func _apply_visible_text(force := false) -> void:
 	if _ensure_target():
 		if _target is RichTextLabel:
 			var rtl := _target as RichTextLabel
-			# BBCode가 켜져 있다면, 문자열에 [ ] 가 포함될 때 깨지지 않도록 필요 시 escape
 			if rtl.bbcode_enabled:
 				rtl.text = _escape_bbcode(final_text)
 			else:
